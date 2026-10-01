@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+FitBuddy – Admin
+{% endblock %}
+
+
+{% block content %}
+
+<section class="result-head">
+
+    <div>
+
+        <p class="eyebrow">
+            ADMIN DASHBOARD
+        </p>
+
+        <h1>
+            All users and plans
+        </h1>
+
+        <p class="muted">
+
+            Review original plans,
+            feedback, and updated plans
+            stored in SQLite.
+
+        </p>
+
+    </div>
+
+
+    <a
+        class="secondary"
+        href="/"
+    >
+
+        New plan
+
+    </a>
+
+</section>
+
+
+{% if users %}
+
+<div class="admin-list">
+
+    {% for user in users %}
+
+    <article class="card user-card">
+
+        <div class="user-top">
+
+            <div>
+
+                <h2>
+                    {{ user.name }}
+                </h2>
+
+                <p class="muted">
+
+                    {{ user.user_id }}
+                    · Age {{ user.age }}
+                    · {{ user.weight }} kg
+                    · {{ user.goal|title }}
+                    · {{ user.intensity|title }}
+
+                </p>
+
+            </div>
+
+
+            <span class="badge">
+
+                {% if user.updated_plan %}
+                Updated
+                {% else %}
+                Original
+                {% endif %}
+
+            </span>
+
+        </div>
+
+
+        <details>
+
+            <summary>
+                Original plan
+            </summary>
+
+            <pre class="plan compact">{{ user.original_plan }}</pre>
+
+        </details>
+
+
+        {% if user.feedback %}
+
+        <div class="feedback-note">
+
+            <strong>
+                Feedback:
+            </strong>
+
+            {{ user.feedback }}
+
+        </div>
+
+        {% endif %}
+
+
+        {% if user.updated_plan %}
+
+        <details open>
+
+            <summary>
+                Updated plan
+            </summary>
+
+            <pre class="plan compact">{{ user.updated_plan }}</pre>
+
+        </details>
+
+        {% endif %}
+
+    </article>
+
+    {% endfor %}
+
+</div>
+
+
+{% else %}
+
+<div class="card empty">
+
+    <h2>
+        No users yet
+    </h2>
+
+    <p>
+        Generate a plan to populate
+        the dashboard.
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
